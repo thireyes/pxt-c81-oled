@@ -1,19 +1,20 @@
 {
     "name": "PXT-C81-OLED",
     "version": "0.0.1",
-    "description": "C81 OLED micro:bit 扩展",
+    "description": "PINPINWA C81 OLED micro:bit 扩展",
     "dependencies": {
         "core": "*",
-        "radio": "*",
         "microphone": "*"
     },
     "files": [
+        "README.md",
         "main.ts",
-        "README.md"
+        "_locales/zh/SSD1306_OLED-strings.json"
     ],
     "testFiles": [
         "test.ts"
     ],
+    "pubilc":true,
     "targetVersions": {
         "target": "5.0.12",
         "targetId": "microbit"
