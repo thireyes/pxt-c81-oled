@@ -127,3 +127,4 @@ basic.forever(() => {
 ## Footnotes
 
 1.  Datasheet https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf
+2.  More information about PPW intelligent electronic building blocks https://www.yuque.com/ppwdocs/en
