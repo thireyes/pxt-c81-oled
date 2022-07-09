@@ -5,7 +5,7 @@
 This is the MakeCode Package for C81 OLED module(SSD1306 OLED controller), based on the Adafruit Arduino library available [here](https://github.com/adafruit/Adafruit_SSD1306).
 
 ## Hardware Setup
-1. Insert the OLED display into the I2C ports on the break out board.
+1. Insert the OLED display into the I2C ports on the G203 micro:bit shield.
 
 ## Blocks
 ### Initialize OLED Display
