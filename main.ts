@@ -3,7 +3,7 @@ declare interface Math {
 }
 
 
-//% color=#8FD1E1 icon="\uf26c"
+//% color=#00979D icon="\uf26c"
 namespace OLED {
     let font: Buffer;
 
