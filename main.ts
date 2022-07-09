@@ -1,6 +1,9 @@
 declare interface Math {
     floor(x: number): number;
 }
+
+
+//% color=#8FD1E1 icon="\uf26c"
 namespace OLED {
     let font: Buffer;
 
@@ -62,7 +65,7 @@ namespace OLED {
             data[i] = 0x00
         }
         // send display buffer in 16 byte chunks
-        for (let j = 0; j < screenSize; j += 16) {
+        for (let i = 0; i < screenSize; i += 16) {
             pins.i2cWriteBuffer(chipAdress, data, false)
         }
         charX = xOffset
@@ -78,25 +81,25 @@ namespace OLED {
         command(displayHeight - 1)
         let col = 0
         let page = 0
-        let data2 = pins.createBuffer(17);
-        data2[0] = 0x40; // Data Mode
-        let k = 1
-        for (let page2 = 0; page2 < displayHeight; page2++) {
-            for (let col2 = 0; col2 < displayWidth; col2++) {
-                if (page2 === 3 && col2 > 12 && col2 < displayWidth - 12) {
-                    data2[k] = 0x60
-                } else if (page2 === 5 && col2 > 12 && col2 < displayWidth - 12) {
-                    data2[k] = 0x06
-                } else if (page2 === 4 && (col2 === 12 || col2 === 13 || col2 === displayWidth - 12 || col2 === displayWidth - 13)) {
-                    data2[k] = 0xFF
+        let data = pins.createBuffer(17);
+        data[0] = 0x40; // Data Mode
+        let i = 1
+        for (let page = 0; page < displayHeight; page++) {
+            for (let col = 0; col < displayWidth; col++) {
+                if (page === 3 && col > 12 && col < displayWidth - 12) {
+                    data[i] = 0x60
+                } else if (page === 5 && col > 12 && col < displayWidth - 12) {
+                    data[i] = 0x06
+                } else if (page === 4 && (col === 12 || col === 13 || col === displayWidth - 12 || col === displayWidth - 13)) {
+                    data[i] = 0xFF
                 } else {
-                    data2[k] = 0x00
+                    data[i] = 0x00
                 }
-                if (k === 16) {
-                    pins.i2cWriteBuffer(chipAdress, data2, false)
-                    k = 1
+                if (i === 16) {
+                    pins.i2cWriteBuffer(chipAdress, data, false)
+                    i = 1
                 } else {
-                    k++
+                    i++
                 }
 
             }
@@ -119,11 +122,11 @@ namespace OLED {
         command(SSD1306_SETPAGEADRESS)
         command(4)
         command(5)
-        let data3 = pins.createBuffer(2);
-        data3[0] = 0x40; // Data Mode
-        data3[1] = 0x7E
-        for (let l = lastStart; l < width * (Math.floor(percent) / 100); l++) {
-            pins.i2cWriteBuffer(chipAdress, data3, false)
+        let data = pins.createBuffer(2);
+        data[0] = 0x40; // Data Mode
+        data[1] = 0x7E
+        for (let i = lastStart; i < width * (Math.floor(percent) / 100); i++) {
+            pins.i2cWriteBuffer(chipAdress, data, false)
         }
         loadPercent = num
     }
@@ -145,11 +148,11 @@ namespace OLED {
     //% block="show (without newline) string $str"
     //% weight=6
     export function writeString(str: string) {
-        for (let m = 0; m < str.length; m++) {
+        for (let i = 0; i < str.length; i++) {
             if (charX > displayWidth - 6) {
                 newLine()
             }
-            drawChar(charX, charY, str.charAt(m))
+            drawChar(charX, charY, str.charAt(i))
             charX += 6
         }
     }
@@ -186,12 +189,12 @@ namespace OLED {
         command(y + 1)
         let line = pins.createBuffer(2)
         line[0] = 0x40
-        for (let n = 0; n < 6; n++) {
-            if (n === 5) {
+        for (let i = 0; i < 6; i++) {
+            if (i === 5) {
                 line[1] = 0x00
             } else {
                 let charIndex = c.charCodeAt(0)
-                let charNumber = font.getNumber(NumberFormat.UInt8BE, 5 * charIndex + n)
+                let charNumber = font.getNumber(NumberFormat.UInt8BE, 5 * charIndex + i)
                 line[1] = charNumber
 
             }
@@ -204,43 +207,43 @@ namespace OLED {
         let y1 = displayHeight * 8
         let x2 = 0
         let y2 = 0
-        for (let o = 0; o < pixels.length; o++) {
-            if (pixels[o][0] < x1) {
-                x1 = pixels[o][0]
+        for (let i = 0; i < pixels.length; i++) {
+            if (pixels[i][0] < x1) {
+                x1 = pixels[i][0]
             }
-            if (pixels[o][0] > x2) {
-                x2 = pixels[o][0]
+            if (pixels[i][0] > x2) {
+                x2 = pixels[i][0]
             }
-            if (pixels[o][1] < y1) {
-                y1 = pixels[o][1]
+            if (pixels[i][1] < y1) {
+                y1 = pixels[i][1]
             }
-            if (pixels[o][1] > y2) {
-                y2 = pixels[o][1]
+            if (pixels[i][1] > y2) {
+                y2 = pixels[i][1]
             }
         }
         let page1 = Math.floor(y1 / 8)
-        let page22 = Math.floor(y2 / 8)
-        let line2 = pins.createBuffer(2)
-        line2[0] = 0x40
+        let page2 = Math.floor(y2 / 8)
+        let line = pins.createBuffer(2)
+        line[0] = 0x40
         for (let x = x1; x <= x2; x++) {
-            for (let page3 = page1; page3 <= page22; page3++) {
-                line2[1] = 0x00
-                for (let p = 0; p < pixels.length; p++) {
-                    if (pixels[p][0] === x) {
-                        if (Math.floor(pixels[p][1] / 8) === page3) {
-                            line2[1] |= Math.pow(2, (pixels[p][1] % 8))
+            for (let page = page1; page <= page2; page++) {
+                line[1] = 0x00
+                for (let i = 0; i < pixels.length; i++) {
+                    if (pixels[i][0] === x) {
+                        if (Math.floor(pixels[i][1] / 8) === page) {
+                            line[1] |= Math.pow(2, (pixels[i][1] % 8))
                         }
                     }
                 }
-                if (line2[1] !== 0x00) {
+                if (line[1] !== 0x00) {
                     command(SSD1306_SETCOLUMNADRESS)
                     command(x)
                     command(x + 1)
                     command(SSD1306_SETPAGEADRESS)
-                    command(page3)
-                    command(page3 + 1)
+                    command(page)
+                    command(page + 1)
                     //line[1] |= pins.i2cReadBuffer(chipAdress, 2)[1]
-                    pins.i2cWriteBuffer(chipAdress, line2, false)
+                    pins.i2cWriteBuffer(chipAdress, line, false)
                 }
             }
         }
@@ -254,16 +257,16 @@ namespace OLED {
     //% weight=1
     export function drawLine(x0: number, y0: number, x1: number, y1: number) {
         let pixels: Array<Array<number>> = []
-        let kx: number, ky: number, c: number, q: number, xx: number, yy: number, dx: number, dy: number;
+        let kx: number, ky: number, c: number, i: number, xx: number, yy: number, dx: number, dy: number;
         let targetX = x1
         let targetY = y1
         x1 -= x0; kx = 0; if (x1 > 0) kx = +1; if (x1 < 0) { kx = -1; x1 = -x1; } x1++;
         y1 -= y0; ky = 0; if (y1 > 0) ky = +1; if (y1 < 0) { ky = -1; y1 = -y1; } y1++;
         if (x1 >= y1) {
             c = x1
-            for (q = 0; q < x1; q++, x0 += kx) {
+            for (i = 0; i < x1; i++ , x0 += kx) {
                 pixels.push([x0, y0])
-                c -= y1; if (c <= 0) { if (q != x1 - 1) pixels.push([x0 + kx, y0]); c += x1; y0 += ky; if (q != x1 - 1) pixels.push([x0, y0]); }
+                c -= y1; if (c <= 0) { if (i != x1 - 1) pixels.push([x0 + kx, y0]); c += x1; y0 += ky; if (i != x1 - 1) pixels.push([x0, y0]); }
                 if (pixels.length > 20) {
                     drawShape(pixels)
                     pixels = []
@@ -273,9 +276,9 @@ namespace OLED {
             }
         } else {
             c = y1
-            for (q = 0; q < y1; q++, y0 += ky) {
+            for (i = 0; i < y1; i++ , y0 += ky) {
                 pixels.push([x0, y0])
-                c -= x1; if (c <= 0) { if (q != y1 - 1) pixels.push([x0, y0 + ky]); c += y1; x0 += kx; if (q != y1 - 1) pixels.push([x0, y0]); }
+                c -= x1; if (c <= 0) { if (i != y1 - 1) pixels.push([x0, y0 + ky]); c += y1; x0 += kx; if (i != y1 - 1) pixels.push([x0, y0]); }
                 if (pixels.length > 20) {
                     drawShape(pixels)
                     pixels = []
@@ -594,4 +597,4 @@ namespace OLED {
         loadPercent = 0
         clear()
     }
-}
+} 

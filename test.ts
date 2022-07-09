@@ -1,4 +1,5 @@
 // 在此处测试；当此软件包作为插件使用时，将不会编译此软件包。
+
 OLED.init(128, 64)
 OLED.writeStringNewLine("the quick brown fox jumped over the lazy dog?")
 OLED.writeStringNewLine("THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG!")
@@ -15,8 +16,7 @@ OLED.writeNumNewLine(3)
 basic.pause(1000)
 for (let i = 0; i < 100; i++) {
     OLED.drawLoading(i)
-}
-basic.pause(1000)
+}basic.pause(1000)
 OLED.clear()
 OLED.drawRectangle(10, 10, 60, 60)
 OLED.drawLine(0, 0, 128, 64)
