@@ -1,6 +1,6 @@
 # C81 OLED MakeCode Package 
 
-![avatar](https://raw.githubusercontent.com/thireyes/pxt-c81-oled-ssd1306/master/icon.png)
+![avatar](https://raw.githubusercontent.com/thireyes/pxt-c81-oled/master/icon.png)
 
 This is the MakeCode Package for C81 OLED module(SSD1306 OLED controller), based on the Adafruit Arduino library available [here](https://github.com/adafruit/Adafruit_SSD1306).
 
