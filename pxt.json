@@ -2,6 +2,7 @@
     "name": "PXT-C81-OLED",
     "version": "0.0.1",
     "description": "PINPINWA C81 OLED micro:bit 扩展",
+    "license": "MIT",
     "dependencies": {
         "core": "*",
         "microphone": "*"
