@@ -1,5 +1,5 @@
 {
-    "name": "PXT-C81-OLED",
+    "name": "C81_OLED",
     "version": "0.0.1",
     "description": "PINPINWA C81 OLED micro:bit 扩展",
     "license": "MIT",
@@ -10,7 +10,7 @@
     "files": [
         "README.md",
         "main.ts",
-        "_locales/zh/SSD1306_OLED-strings.json"
+        "_locales/zh/C81_OLED-strings.json"
     ],
     "testFiles": [
         "test.ts"
